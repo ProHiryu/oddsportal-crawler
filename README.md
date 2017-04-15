@@ -1,2 +1,2 @@
 # oddsportal-scraper
-scrapy the history odds of lol esports matches
+Get the history odds of lol esports matches
