@@ -52,24 +52,30 @@ for i in range(5):
 
     for tr in trs:
         try:
-            td = tr.find_element_by_class_name('table-score')
-            result.append(td.text)
             As = tr.find_elements_by_tag_name('a')
-            team.append(As[0].text)
-            odd1.append(As[1].text)
-            odd2.append(As[2].text)
-            print(As[0].text,As[1].text,As[2].text)
+            if len(As[1].text) == 0:
+                pass
+            else:
+                team.append(As[0].text)
+                odd1.append(As[1].text)
+                odd2.append(As[2].text)
+                td = tr.find_element_by_class_name('table-score')
+                result.append(td.text)
         except:
             print('new game has no result')
 
-    if (i<4):
-        driver.get(url+'page/'+str(i+2)+'/')
+    print('The data of {:d} page is over'.format(i+1))
+    print('Already get {:d} teams {:d} odds {:d} results'.format(len(team), len(odd2), len(result)))
+    print('------------------------------------------------')
+
+    if (i < 4):
+        driver.get(url + 'page/' + str(i + 2) + '/')
         time.sleep(2)
+
     # page_button = driver.find_element_by_xpath('//*[@id="pagination"]/a[7]')
     # page_button.click()
     # time.sleep(3)
 
-    print('----------------------------------')
 
 # print(team, odd1, odd2, result)
 print(len(team), len(odd1), len(odd2), len(result))
