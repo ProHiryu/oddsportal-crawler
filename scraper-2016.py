@@ -64,9 +64,10 @@ for i in range(5):
         except:
             print('new game has no result')
 
-    print('The data of {:d} page is over'.format(i+1))
-    print('Already get {:d} teams {:d} odds {:d} results'.format(len(team), len(odd2), len(result)))
-    print('------------------------------------------------')
+    print('The data of {:d} page is over'.format(i + 1))
+    print('Already get {:d} teams {:d} odds {:d} results'.format(
+        len(team), len(odd2), len(result)))
+    print('---------------------------------------------')
 
     if (i < 4):
         driver.get(url + 'page/' + str(i + 2) + '/')
@@ -78,11 +79,35 @@ for i in range(5):
 
 
 # print(team, odd1, odd2, result)
-print(len(team), len(odd1), len(odd2), len(result))
+# print(len(team), len(odd1), len(odd2), len(result))
 
-# for i in range(len(team)):
-#     cur.execute('''INSERT INTO lpl_2017_spring (team,odd1,odd2,result) VALUES (?,?,?,?)''',
-#                 (team[i], odd1[i], odd2[i], result[i]))
+
+last_flag = 1
+flag = 1
+flag_final = 0
+
+for i in range(len(team)):
+    if result[i][0] == 'w':
+        continue
+
+    if int(result[i][0]) >= 3 or int(result[i][2]) >= 3:
+        last_flag = flag
+        flag = 1
+    else:
+        last_flag = flag
+        flag = 0
+
+    if last_flag == 0 and flag == 1:
+        flag_final = 1
+    else:
+        pass
+
+    if flag_final == 1:
+        cur.execute('''INSERT INTO lpl_2016_spring (team,odd1,odd2,result) VALUES (?,?,?,?)''',
+                    (team[i], odd1[i], odd2[i], result[i]))
+    elif flag_final == 0:
+        cur.execute('''INSERT INTO lpl_2016_summer (team,odd1,odd2,result) VALUES (?,?,?,?)''',
+                    (team[i], odd1[i], odd2[i], result[i]))
 
 conn.commit()
 conn.close()
