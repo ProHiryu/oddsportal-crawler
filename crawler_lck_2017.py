@@ -59,12 +59,15 @@ trs = driver.find_elements_by_class_name('deactivate')
 
 for tr in trs:
     try:
-        td = tr.find_element_by_class_name('table-score')
-        result.append(td.text)
         As = tr.find_elements_by_tag_name('a')
-        team.append(As[0].text)
-        odd1.append(As[1].text)
-        odd2.append(As[2].text)
+        if len(As[1].text) == 0:
+            pass
+        else:
+            team.append(As[0].text)
+            odd1.append(As[1].text)
+            odd2.append(As[2].text)
+            td = tr.find_element_by_class_name('table-score')
+            result.append(td.text)
     except:
         print('new game has no result')
 
